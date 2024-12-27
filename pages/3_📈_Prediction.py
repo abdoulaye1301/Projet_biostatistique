@@ -121,7 +121,7 @@ prevision = chargement_modele.predict_survival_function(donnee_entre)
 
 # Affichage du prévision
 st.subheader("Résultat de la prévision")
-st.text(prevision)
+# st.text(prevision)
 prevision.plot()
 plt.title("Courbe de prévision de décés")
 plt.xlabel("Durée de survie")
