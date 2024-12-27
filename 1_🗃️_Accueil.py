@@ -15,7 +15,7 @@ def main():
     )
     st.subheader("Auteurs : Abdoulaye NDAO, Malick FAYE")
     st.markdown(
-        "**Cette étude consiste à mettre en place un modèle de machine learning ou statistique qui permette de faire un pronostique sur la survenue instantanée de décès après le traitement. Pour la construction de ce modèle, nous allons utiliser les données de patients atteints d’accident cérébral vasculaire (AVC), traités et suivis.Après avoir observé les dimensions de notre base de données, nous avons constaté qu’elle contient 1053 observations réparties sur 16 variables dont 4 variables sont des variables quantitatives et 12 sont des variables qualitatives.**"
+        "**Cette étude consiste à mettre en place un modèle de machine learning ou statistique qui permet de faire un pronostique sur la survenue instantanée de décès après le traitement. Pour la construction de ce modèle, nous allons utiliser les données des patients atteints d’accident cérébral vasculaire (AVC), traités et suivis. Après avoir observé les dimensions de notre base de données, nous avons constaté qu’elle contient 1053 observations réparties sur 16 variables dont 4 variables sont des variables quantitatives et 12 sont des variables qualitatives.**"
     )
     st.text("   ")
     st.text("   ")
