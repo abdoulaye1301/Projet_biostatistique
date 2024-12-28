@@ -269,7 +269,7 @@ elif Classification == "Kaplan-Meier":
     varQu = df5.drop("AGE", axis=1).columns.tolist()
     v1 = st.sidebar.selectbox("Variable", varQu)
     if st.sidebar.button("Execution", key="classify"):
-        st.title("Résultat du modèle Kaplan-Meier")
+        # st.title("Résultat du modèle Kaplan-Meier")
         st.header(v1)
         st.subheader("Le résultat du test de log-rank :")
         print_logrank(v1)
