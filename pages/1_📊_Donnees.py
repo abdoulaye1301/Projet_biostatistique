@@ -115,9 +115,14 @@ elif Sous == "Statitique":
                         "pink",
                     ),
                 )
+
                 don, ax = plt.subplots()
                 ax = sns.histplot(
-                    data=df2, x=var, stat="density", label="Histogramme", color=colhist
+                    data=df2,
+                    x=var,
+                    stat="density",
+                    label="Histogramme",
+                    color=colhist,
                 )
                 sns.kdeplot(data=df2, x=var, label="Densité", color=colde)
                 plt.title(f"Histogramme de {var}")
@@ -128,30 +133,14 @@ elif Sous == "Statitique":
                 # Visualisation des variables qualitatives
             elif statist == "Diagramme en barre":
                 st.text("Représantation graphique des variables qualitatives")
-                varia = st.sidebar.selectbox("Choisire la variable", varQual)
-                colbar = st.sidebar.selectbox(
-                    "Couleur de la densité",
-                    (
-                        "red",
-                        "blue",
-                        "green",
-                        "orange",
-                        "yellow",
-                        "purple",
-                        "black",
-                        "teal",
-                        "mustard",
-                        "cyan",
-                        "gold",
-                        "pink",
-                    ),
-                )
-                don, ax = plt.subplots()
+                var = st.sidebar.selectbox("Choisire la variable", varQual)
+                # colbar = st.sidebar.selectbox("Couleur de la densité",("red","blue","green","orange","yellow","purple","black","teal","mustard","cyan","gold","pink"))
 
-                ax = sns.countplot(data=df2, x=varia, color=colbar)
-                plt.title(f"Diagramme en barre de {varia}")
+                don, ax = plt.subplots()
+                ax = sns.countplot(data=df2, x=var, palette="Set2")  # color=colbar)
+                plt.title(f"Diagramme en barre de {var}")
                 plt.ylabel("Frequence")
-                plt.xlabel(varia)
+                plt.xlabel(var)
                 st.pyplot(don)
 
                 # Vsualisation des boxplot après nétoyage
@@ -166,7 +155,8 @@ elif Sous == "Statitique":
                     max = Q3 + 1.5 * IQR
                     df2.loc[df2[var] < min, var] = min
                     df2.loc[df2[var] > max, var] = max
-                varia = st.sidebar.selectbox("Choisire la variable", varQuant)
+
+                var = st.sidebar.selectbox("Choisire la variable", varQuant)
                 colbox = st.sidebar.selectbox(
                     "Couleur de la densité",
                     (
@@ -184,10 +174,11 @@ elif Sous == "Statitique":
                         "pink",
                     ),
                 )
+
                 don, ax = plt.subplots()
-                ax = sns.boxplot(data=df2, x=varia, color=colbox)
-                plt.title(f"Boxplot de {varia}")
-                plt.xlabel(varia)
+                ax = sns.boxplot(data=df2, x=var, color=colbox)
+                plt.title(f"Boxplot de {var}")
+                plt.xlabel(var)
                 st.pyplot(don)
 
     if Sous_b == "Statitique Buvariée":
@@ -222,7 +213,10 @@ elif Sous == "Statitique":
             ("Matrice de correlation", "Test Krouskal-Wllis"),
         )
         if statist1 == "Matrice de correlation":
-            st.text("Matrice de correlation")
+            st.markdown("Viasualisation graphique de la correlation")
+            sns.pairplot(df2)
+            st.pyplot()
+            st.markdown("Matrice de correlation")
             don, ax = plt.subplots()
             ax = sns.heatmap(df2[varQuant].corr(), annot=True)
             plt.title(f"Matrice de corrélation")

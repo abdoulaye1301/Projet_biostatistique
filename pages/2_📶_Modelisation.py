@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import seaborn as sns
 from sklearn.metrics import ConfusionMatrixDisplay, RocCurveDisplay
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
@@ -84,10 +85,6 @@ if st.button("Normaliser", False):
     scaler = RobustScaler()
     nomvar = df5.drop("Evolution", axis=1).columns.tolist()
     df5.loc[:, nomvar] = scaler.fit_transform(df5[nomvar])
-    for var in nomvar:
-        moyen = df5[var].mean()
-        ecar = np.sqrt(df5[var].std())
-        df5[nomvar] = df5[nomvar].apply(lambda x: (x - moyen) / ecar)
     st.text("Statistique des donnormaliser")
     df5.describe().T
 seed = 0
