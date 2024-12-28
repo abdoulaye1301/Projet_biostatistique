@@ -134,8 +134,6 @@ elif Sous == "Statitique":
             elif statist == "Diagramme en barre":
                 st.text("Représantation graphique des variables qualitatives")
                 var = st.sidebar.selectbox("Choisire la variable", varQual)
-                # colbar = st.sidebar.selectbox("Couleur de la densité",("red","blue","green","orange","yellow","purple","black","teal","mustard","cyan","gold","pink"))
-
                 don, ax = plt.subplots()
                 ax = sns.countplot(data=df2, x=var, palette="Set2")  # color=colbar)
                 plt.title(f"Diagramme en barre de {var}")
