@@ -80,13 +80,13 @@ encoder = OrdinalEncoder(categories=categories_order)
 df5.loc[:, varQual] = encoder.fit_transform(df5[varQual])
 for var in varQual:
     df5[var] = df5[var].apply(lambda x: int(x))
-if st.button("Normaliser", False):
+    # if st.button("Normaliser", False):
     # instanciation
-    scaler = RobustScaler()
-    nomvar = df5.drop("Evolution", axis=1).columns.tolist()
-    df5.loc[:, nomvar] = scaler.fit_transform(df5[nomvar])
-    st.text("Statistique des donnormaliser")
-    df5.describe().T
+    # scaler = RobustScaler()
+    # nomvar = df5.drop("Evolution", axis=1).columns.tolist()
+    # df5.loc[:, nomvar] = scaler.fit_transform(df5[nomvar])
+    # st.text("Statistique des donnormaliser")
+    # df5.describe().T
 seed = 0
 # Train/test Split
 y = df5["Evolution"]
@@ -117,7 +117,7 @@ def plot_perf(graphes):
 
 Classification = st.sidebar.selectbox(
     "Classificateur",
-    ("Regression Logistique", "SVM", "Random Forest", "COX", "KAPLA MEILLER"),
+    ("Regression Logistique", "SVM", "Random Forest", "CoxPHFitter", "Kaplan-Meier"),
 )
 
 # Random Forest
@@ -220,55 +220,58 @@ elif Classification == "SVM":
 
         # Affichage des métriques dans l'application
         plot_perf(perf_graphe)
-elif Classification == "COX":
+elif Classification == "CoxPHFitter":
     st.sidebar.subheader("Hyerparamètres du modèle")
     apha = st.sidebar.number_input("Choisir le nombre alpha", 0.01, 0.1, step=0.01)
     # Performance du modele
     if st.sidebar.button("Execution", key="classify"):
-        st.subheader("Résultat du modèle COX")
         # Initialisation du modele
         model = CoxPHFitter(alpha=apha)
         # Entrainement du modele
         model.fit(df5, "Temps_Suivi", "Evolution")
         # Prediction
-        st.write(model.print_summary())
-elif Classification == "KAPLA MEILLER":
+        st.title("Résumé du modèle CoxPHFitter")
+
+        # Convertir le résumé en DataFrame pour un affichage plus propre
+        summary_df = model.summary
+        summary_df = summary_df.reset_index()
+        summary_df = summary_df.rename(columns={"index": "Variable"})
+
+        # Afficher le DataFrame avec Streamlit
+        st.dataframe(summary_df)
+        # st.write(model.print_summary())
+elif Classification == "Kaplan-Meier":
 
     model = KaplanMeierFitter()
     # Entrainement du modele
     model.fit(df5["Temps_Suivi"], df5["Evolution"])
 
+    # les résultats du test du log-rank
+    def print_logrank(col):
+        log_rank = pairwise_logrank_test(df5["Temps_Suivi"], df5[col], df5["Evolution"])
+        return st.write(log_rank.summary)
+
     # Fonction d'aide pour tracer des courbes de Kaplan-Meier au niveau des covariables
     def plot_km(col):
-        ax = plt.subplot(111)
+        ax = plt.subplot()
         for r in df5[col].unique():
             ix = df5[col] == r
             model.fit(df5["Temps_Suivi"][ix], df5["Evolution"][ix], label=r)
             model.plot(ax=ax)
-            st.pyplot()
-
-    # Helper function for printing out Log-rank test results
-    def print_logrank(col):
-        log_rank = pairwise_logrank_test(df5["Temps_Suivi"], df5[col], df5["Evolution"])
-        return log_rank.summary
+            plt.ylabel("Probabilité de Survie")
+            plt.xlabel("Temps en mois")
+            plt.title(f"Courbes de Kaplan-Meier pour {col}")
+        st.pyplot()
 
     st.sidebar.subheader("Hyerparamètres du modèle")
     # apha = st.sidebar.number_input("Choisir le nombre alpha", 0.01, 0.1, step=0.01)
     # Performance du modele
-    varQu = df5.columns.tolist()
+    varQu = df5.drop("AGE", axis=1).columns.tolist()
     v1 = st.sidebar.selectbox("Variable", varQu)
     if st.sidebar.button("Execution", key="classify"):
-        st.subheader("Résultat du modèle COX")
-        # Initialisation du modele
-        # model = KaplanMeierFitter()
-        # Entrainement du modele
-        # model.fit(df5['Temps_Suivi'], df5['Evolution'])
-        # Prediction
-
-        # plt.show()
-        st.text(v1)
-        v, r = plt.subplots()
-        r = plot_km(v1)
+        st.title("Résultat du modèle Kaplan-Meier")
+        st.header(v1)
+        st.subheader("Le résultat du test de log-rank :")
         print_logrank(v1)
-        st.pyplot(v)
-        # st.write(model.print_summary())
+        st.subheader("Graphique du Kaplan-Meier")
+        r = plot_km(v1)
