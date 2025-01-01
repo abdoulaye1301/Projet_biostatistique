@@ -8,6 +8,13 @@ import matplotlib.pyplot as plt
 st.set_page_config(page_title="ND_FA_Biostatistique", page_icon="🎢", layout="centered")
 
 st.title("Prédition de la survenue instantanée de décès après le traitement")
+st.markdown(
+    "Nous avons utilisre le modèle de Cox pour effectuer nos préduction, car il est spécifiquement choisi"
+    "pour analyser les données de survie, où l’objectif est de modéliser le temps jusqu'à l’arrivée de"
+    "l’événement d'intérêt (décès). Il nous permet aussi de prend en compte à la fois les événements"
+    "observés et les données censurées, c'est-à-dire les individus pour lesquels l'événement"
+    "n'est pas survenu à la fin de l'étude."
+)
 
 # Colletion des données d'entré
 st.sidebar.header("Caractéristiques du patien")
@@ -26,25 +33,22 @@ def patient():
     Temps_Suivi = st.sidebar.slider(
         "Temps de Suivi après traitement (en jours)", min_value=1, max_value=366, step=1
     )
-    SEXE = st.sidebar.selectbox("Sexe", ("Homme", "Femme"))
-    Cardiopathie = st.sidebar.selectbox("Cardiopathie", ("NON", "OUI"))
+    # SEXE = st.sidebar.selectbox("Sexe", ("Homme", "Femme"))
+    # Cardiopathie = st.sidebar.selectbox("Cardiopathie", ("NON", "OUI"))
     hémiplégie = st.sidebar.selectbox("Hémiplégie", ("NON", "OUI"))
     Paralysie_faciale = st.sidebar.selectbox("Paralysie faciale", ("NON", "OUI"))
     Aphasie = st.sidebar.selectbox("Aphasie", ("NON", "OUI"))
-    Hémiparésie = st.sidebar.selectbox("Hémiparésie", ("NON", "OUI"))
+    # Hémiparésie = st.sidebar.selectbox("Hémiparésie", ("NON", "OUI"))
     Inondation_Ventriculaire = st.sidebar.selectbox(
         "Inondation Ventriculaire", ("NON", "OUI")
     )
     Traitement = st.sidebar.selectbox("Traitement", ("Thrombolyse", "Chirurgie"))
     donne = {
-        "SEXE": SEXE,
         "Premiers_Signe": Premiers_Signe,
         "Admission_hopital": Admission_hopital,
-        "Cardiopathie": Cardiopathie,
         "hémiplégie": hémiplégie,
         "Paralysie_faciale": Paralysie_faciale,
         "Aphasie": Aphasie,
-        "Hémiparésie": Hémiparésie,
         "Inondation_Ventriculaire": Inondation_Ventriculaire,
         "Traitement": Traitement,
         "Temps_Suivi": Temps_Suivi,
@@ -84,7 +88,15 @@ donne1.columns = [
     "Temps_Suivi",
 ]
 donne1.drop(
-    columns=["AGE", "Hypertension_Arterielle", "Diabete", "Engagement_Cerebral"],
+    columns=[
+        "SEXE",
+        "AGE",
+        "Hypertension_Arterielle",
+        "Diabete",
+        "Engagement_Cerebral",
+        "Hémiparésie",
+        "Cardiopathie",
+    ],
     axis=1,
     inplace=True,
 )
@@ -92,9 +104,6 @@ donnee_entre = pd.concat([donne2, donne1], axis=0)
 # Encodage des variables d'entrées
 varQual = donnee_entre.select_dtypes(include="object").columns.tolist()
 categories_order = [
-    ["Femme", "Homme"],
-    ["NON", "OUI"],
-    ["NON", "OUI"],
     ["NON", "OUI"],
     ["NON", "OUI"],
     ["NON", "OUI"],
@@ -111,7 +120,7 @@ for var in varQual:
 donnee_entre = donnee_entre[:1]
 
 # Affichage des données transformé
-st.write(donnee_entre)
+# st.write(donnee_entre)
 # if st.sidebar.button("Prediction"):
 # Importation du moèle
 chargement_modele = joblib.load("projet_biostatistique.h5")

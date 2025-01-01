@@ -117,43 +117,10 @@ def plot_perf(graphes):
 
 Classification = st.sidebar.selectbox(
     "Classificateur",
-    ("Regression Logistique", "SVM", "Random Forest", "CoxPHFitter", "Kaplan-Meier"),
+    ("Regression Logistique", "CoxPHFitter", "Kaplan-Meier"),
 )
-
-# Random Forest
-if Classification == "Random Forest":
-    st.sidebar.subheader("Hyerparamètres du modèle")
-    n_arbre = st.sidebar.number_input("Choisir le nombre d'arbes", 10, 100, step=5)
-    profondeur_arbre = st.sidebar.number_input(
-        "Profondeur maximale d'un arbe", 1, 20, step=1
-    )
-    # Performance du modele
-    perf_graphe = st.sidebar.multiselect(
-        "Choisir un graphique de performance du modèle ML",
-        ("Matrice de confusion", "Courbe de ROC"),
-    )
-    if st.sidebar.button("Execution", key="classify"):
-        st.subheader("Résultat du modèle Random Forest")
-        # Initialisation du modele
-        model = RandomForestClassifier(n_estimators=n_arbre, max_depth=profondeur_arbre)
-        # Entrainement du modele
-        model.fit(X_train, Y_train)
-        # Prediction
-        y_pred = model.predict(X_test)
-        # Metriques de performance
-        accuracy = accuracy_score(Y_test, y_pred)
-        precision = precision_score(Y_test, y_pred)
-        recall = recall_score(Y_test, y_pred)
-        # Affichage des métriques dans l'application
-        st.write(f"Accuracy : {round(accuracy,2)}")
-        st.write(f"Precision : {round(precision,2)}")
-        st.write(f"Recall : {round(recall,2)}")
-
-        # Affichage des graphiques de performance
-        plot_perf(perf_graphe)
-
 # Regression Logistique
-elif Classification == "Regression Logistique":
+if Classification == "Regression Logistique":
     st.sidebar.subheader("Hyerparamètres du modèle")
     hepr_c = st.sidebar.number_input(
         "Choisir le paramétre de régularisation", 0.01, 10.0
@@ -186,41 +153,11 @@ elif Classification == "Regression Logistique":
 
         # Affichage des graphiques de performance
         plot_perf(perf_graphe)
-
-# SVM
-elif Classification == "SVM":
-    st.sidebar.subheader("Hyerparamètres du modèle")
-    kernel = st.sidebar.radio(
-        "Choisir le Kernel", ("linear", "rbf", "sigmoid", "poly", "precomputed")
-    )
-    hyp_c = st.sidebar.number_input("Profondeur maximale C", 1, 10, step=1)
-    gamma = st.sidebar.radio("Gamma", ("scale", "auto"))
-    # Performance du modele
-    perf_graphe = st.sidebar.multiselect(
-        "Choisir un graphique de performance du modèle ML",
-        ("Matrice de confusion", "Courbe de ROC"),
-    )
-    if st.sidebar.button("Execution", key="classify"):
-        st.subheader("Résultat du modèle SVM")
-
-        # Initialisation du modele
-        model = SVC(kernel=kernel, C=hyp_c, gamma=gamma)
-        # Entrainement du modele
-        model.fit(X_train, Y_train)
-        # Prediction
-        y_pred = model.predict(X_test)
-        # Metriques de performance
-        accuracy = accuracy_score(Y_test, y_pred)
-        precision = precision_score(Y_test, y_pred)
-        recall = recall_score(Y_test, y_pred)
-        # Affichage des métriques dans l'application
-        st.write(f"Accuracy : {round(accuracy,2)}")
-        st.write(f"Precision : {round(precision,2)}")
-        st.write(f"Recall : {round(recall,2)}")
-
-        # Affichage des métriques dans l'application
-        plot_perf(perf_graphe)
 elif Classification == "CoxPHFitter":
+    scaler = RobustScaler()
+    df6 = df5
+    nomvar = df6.drop("Evolution", axis=1).columns.tolist()
+    df6.loc[:, nomvar] = scaler.fit_transform(df6[nomvar])
     st.sidebar.subheader("Hyerparamètres du modèle")
     apha = st.sidebar.number_input("Choisir le nombre alpha", 0.01, 0.1, step=0.01)
     # Performance du modele
@@ -228,7 +165,7 @@ elif Classification == "CoxPHFitter":
         # Initialisation du modele
         model = CoxPHFitter(alpha=apha)
         # Entrainement du modele
-        model.fit(df5, "Temps_Suivi", "Evolution")
+        model.fit(df6, "Temps_Suivi", "Evolution")
         # Prediction
         st.title("Résumé du modèle CoxPHFitter")
 

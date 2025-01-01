@@ -17,12 +17,14 @@ def chargement():
 
 
 df = chargement()
-portion = df.head(100)
 # Sous menu
 Sous = st.sidebar.radio("Chargement et visualisation", ("Données", "Statitique"))
 if Sous == "Données":
-    st.write("Echantillon des 100 premières observations")
-    st.write(portion)
+    nombre = st.sidebar.number_input(
+        "La taille d'échantillon", min_value=2, max_value=1053
+    )
+    st.markdown("**Visualisation de l'echantillon**")
+    st.write(df.head(nombre))
 elif Sous == "Statitique":
     st.subheader("Stattistique exploratoire du jeu de donnéées")
     # Modification des noms des variables
