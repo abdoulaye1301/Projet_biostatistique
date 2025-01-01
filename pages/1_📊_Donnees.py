@@ -191,7 +191,7 @@ elif Sous == "Statitique":
             "**!======================== Statitique Buvariée ========================!**"
         )
         st.markdown(
-            "L'analyse bivariée est utilisée pour trouver la relation entre deux variables."
+            "L'analyse bivariée est utilisée pour trouver la relation entre deux variables. "
             "**L'analyse bivariée est l'une des techniques d'analyse statistique les plus simples,**"
             "**dans laquelle deux variables sont analysées pour déterminer la relation empirique entre**"
             "**elles. Il existe différents types d'analyse bivariée.**"
