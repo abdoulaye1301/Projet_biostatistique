@@ -56,8 +56,13 @@ elif Sous == "Statitique":
         "Exploration", ("Statitique Univariée", "Statitique Buvariée")
     )
     if Sous_b == "Statitique Univariée":
-        st.text(
-            "!======================== Statitique Univariée ========================!"
+        st.markdown(
+            "**!======================== Statitique Univariée ========================!**"
+        )
+        st.markdown(
+            "**L'analyse univariée est une technique statistique qui consiste**"
+            "**à analyser une seule variable à la fois. Elle est utilisée pour décrire**"
+            "**les données et identifier des tendances.**"
         )
         choix = st.sidebar.selectbox("Type statistique", ("Description", "Graphique"))
         # Statistique descriptive
@@ -182,8 +187,14 @@ elif Sous == "Statitique":
                 st.pyplot(don)
 
     if Sous_b == "Statitique Buvariée":
-        st.text(
-            "!======================== Statitique Buvariée ========================!"
+        st.markdown(
+            "**!======================== Statitique Buvariée ========================!**"
+        )
+        st.markdown(
+            "**L'analyse bivariée est utilisée pour trouver la relation entre deux variables.**"
+            "**L'analyse bivariée est l'une des techniques d'analyse statistique les plus simples,**"
+            "**dans laquelle deux variables sont analysées pour déterminer la relation empirique entre**"
+            "**elles. Il existe différents types d'analyse bivariée.**"
         )
         df3 = df2.copy()
         # Encodage des variables qualitative
