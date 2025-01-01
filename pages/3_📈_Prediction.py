@@ -6,14 +6,13 @@ import joblib
 import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="ND_FA_Biostatistique", page_icon="🎢", layout="centered")
-
 st.title("Prédition de la survenue instantanée de décès après le traitement")
 st.markdown(
-    "Nous avons utilisre le modèle de Cox pour effectuer nos préduction, car il est spécifiquement choisi"
-    "pour analyser les données de survie, où l’objectif est de modéliser le temps jusqu'à l’arrivée de"
-    "l’événement d'intérêt (décès). Il nous permet aussi de prend en compte à la fois les événements"
-    "observés et les données censurées, c'est-à-dire les individus pour lesquels l'événement"
-    "n'est pas survenu à la fin de l'étude."
+    "**Nous avons utilisre le modèle de Cox pour effectuer nos préduction, car il est spécifiquement choisi**"
+    "**pour analyser les données de survie, où l'objectif est de modéliser le temps jusqu'à l'arrivée de**"
+    "**l'événement d'intérêt (décès). Il nous permet aussi de prend en compte à la fois les événements**"
+    "**observés et les données censurées, c'est-à-dire les individus pour lesquels l'événement**"
+    "**n'est pas survenu à la fin de l'étude.**"
 )
 
 # Colletion des données d'entré

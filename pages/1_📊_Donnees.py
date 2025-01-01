@@ -21,9 +21,9 @@ df = chargement()
 Sous = st.sidebar.radio("Chargement et visualisation", ("Données", "Statitique"))
 if Sous == "Données":
     nombre = st.sidebar.number_input(
-        "La taille d'échantillon", min_value=2, max_value=1053
+        "Le nombre d'observation", min_value=2, max_value=1053
     )
-    st.markdown("**Visualisation de l'echantillon**")
+    st.markdown("**Visualisation de la base de données**")
     st.write(df.head(nombre))
 elif Sous == "Statitique":
     st.subheader("Stattistique exploratoire du jeu de donnéées")
