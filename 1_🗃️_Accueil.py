@@ -15,8 +15,7 @@ def main():
     )
     st.subheader("Auteurs : Abdoulaye NDAO, Malick FAYE")
     st.markdown(
-        "**Cette étude consiste à mettre en place un modèle de machine learning ou statistique**"
-        "**qui permet de faire un pronostique sur la survenue instantanée de décès après le traitement.**"
+        "**Cette étude consiste à mettre en place un modèle de machine learning ou statistique qui permet de faire un pronostique sur la survenue instantanée de décès après le traitement.**"
         "**Pour la construction de ce modèle, nous allons utiliser les données des patients atteints**"
         "**d’accident cérébral vasculaire (AVC), traités et suivis.**"
     )
