@@ -53,7 +53,7 @@ elif Sous == "Statitique":
     varQual = df2.select_dtypes(include="object").columns.tolist()
 
     Sous_b = st.sidebar.radio(
-        "Exploration", ("Statitique Univariée", "Statitique Buvariée")
+        "Exploration", ("Statitique Univariée", "Statitique Bivariée")
     )
     if Sous_b == "Statitique Univariée":
         st.markdown(
