@@ -18,15 +18,15 @@ def chargement():
 
 df = chargement()
 # Sous menu
-Sous = st.sidebar.radio("Chargement et visualisation", ("Données", "Statitique"))
+Sous = st.sidebar.radio("Chargement et visualisation", ("Données", "Statistique"))
 if Sous == "Données":
     nombre = st.sidebar.number_input(
         "Le nombre d'observation", min_value=2, max_value=1053
     )
     st.markdown("**Visualisation de la base de données**")
     st.write(df.head(nombre))
-elif Sous == "Statitique":
-    st.subheader("Stattistique exploratoire du jeu de donnéées")
+elif Sous == "Statistique":
+    st.subheader("Statistique exploratoire du jeu de donnéées")
     # Modification des noms des variables
     df2 = df.copy()
     df2.columns = [
@@ -53,11 +53,11 @@ elif Sous == "Statitique":
     varQual = df2.select_dtypes(include="object").columns.tolist()
 
     Sous_b = st.sidebar.radio(
-        "Exploration", ("Statitique Univariée", "Statitique Bivariée")
+        "Exploration", ("Statistique Univariée", "Statistique Bivariée")
     )
-    if Sous_b == "Statitique Univariée":
+    if Sous_b == "Statistique Univariée":
         st.markdown(
-            "**!======================== Statitique Univariée ========================!**"
+            "**!======================== Statistique Univariée ========================!**"
         )
         st.markdown(
             "**L'analyse univariée est une technique statistique qui consiste**"
@@ -186,9 +186,9 @@ elif Sous == "Statitique":
                 plt.xlabel(var)
                 st.pyplot(don)
 
-    if Sous_b == "Statitique Bivariée":
+    if Sous_b == "Statistique Bivariée":
         st.markdown(
-            "**!======================== Statitique Bivariée ========================!**"
+            "**!======================== Statistique Bivariée ========================!**"
         )
         st.markdown(
             "L'analyse bivariée est utilisée pour trouver la relation entre deux variables. "
@@ -221,7 +221,7 @@ elif Sous == "Statitique":
         # Statistique buvariée
         statist1 = st.sidebar.selectbox(
             "Statistiques",
-            ("Matrice de correlation", "Test Krouskal-Wllis"),
+            ("Matrice de correlation", "Test Krouskal-Wallis"),
         )
         if statist1 == "Matrice de correlation":
             st.markdown("Viasualisation graphique de la correlation")
@@ -232,8 +232,8 @@ elif Sous == "Statitique":
             ax = sns.heatmap(df2[varQuant].corr(), annot=True)
             plt.title(f"Matrice de corrélation")
             st.pyplot(don)
-        elif statist1 == "Test Krouskal-Wllis":
-            st.text("Test Krouskal-Wllis")
+        elif statist1 == "Test Krouskal-Wallis":
+            st.text("Test Krouskal-Wallis")
             # La liaison des variables qualitatives avec le test de kruskal-wallis
             nom = df3.drop("Evolution", axis=1).columns.tolist()
             results = []
