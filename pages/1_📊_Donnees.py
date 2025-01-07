@@ -186,9 +186,9 @@ elif Sous == "Statitique":
                 plt.xlabel(var)
                 st.pyplot(don)
 
-    if Sous_b == "Statitique Buvariée":
+    if Sous_b == "Statitique Bivariée":
         st.markdown(
-            "**!======================== Statitique Buvariée ========================!**"
+            "**!======================== Statitique Bivariée ========================!**"
         )
         st.markdown(
             "L'analyse bivariée est utilisée pour trouver la relation entre deux variables. "
